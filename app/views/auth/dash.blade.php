@@ -7,6 +7,9 @@
   <title>AuthLaravelSimple</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link href="{{ asset('css/dash.css') }}" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
   @import url(//fonts.googleapis.com/css?family=Lato:700);
   </style>
@@ -59,50 +62,25 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Social Networking</a></li>
-            <li><a href="#">favorites</a></li>
-            <li><a href="#">Recommended</a></li>
-          </ul>
 
-        </div>
+        <section id="main" class=" ocultar">
 
-        <div id="main" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 ocultar">
-          <h1 class="page-header">Dashboard</h1>
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img class="img-circle" src="{{asset(Auth::user()->avatar->url('thumb')) }}" >
-              <h4>Users signed</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img class="img-circle" src="{{asset(Auth::user()->avatar->url('thumb')) }}" >
-              <h4>More Popular Blogs</h4>
-              <span class="text-muted"> else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img class="img-circle" src="{{asset(Auth::user()->avatar->url('thumb')) }}" >
-              <h4>Space Data</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img class="img-circle" src="{{asset(Auth::user()->avatar->url('thumb')) }}" >
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+          <div class="card-panel teal lighten-2">This project use Youtube API
+            <!--<button onclick="auth();">Authorize</button>
+            <div id="login-container" class="pre-auth">This application requires access to your YouTube account.
+              Please <a href="#" id="login-link">authorize</a> to continue.
+            </div>-->
+            <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+              <a class="btn-floating btn-large red">
+                <i class="large material-icons" id="playlist-button" disabled onclick="showCreatePlaylist()">playlist_add</i>
+              </a>
             </div>
           </div>
+          <div id="video-container" class="row"></div>
 
-          <h2 class="sub-header">Description</h2>
-          <div class="table-responsive">
-            <p>This project is a authentication system, bassically you can create users and make crud(create,read,update,delete) on him.
-            if you hace questions my tw: @ezeezegg</p>
-          </div>
-        </div>
+        </section>
 
-        <div id="updateUser" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 ocultar" style="display:none" >
+        <section id="updateUser" class=" ocultar" style="display:none" >
           <div class="col-md-4 col-md-offset-4">
             <img class="img-circle" src="{{asset(Auth::user()->avatar->url('thumb')) }}" >
 
@@ -110,30 +88,53 @@
               {{ Form::hidden('id', Auth::user()->id ) }}
               {{ Form::file('avatar') }}
               <input type="submit" value="Subir imagen" class="btn btn-success">
-            {{ Form::close() }}
+              {{ Form::close() }}
 
-            {{ Form::open(['route' => 'updateUser', 'method' => 'POST', 'role' => 'form']) }}
+              {{ Form::open(['route' => 'updateUser', 'method' => 'POST', 'role' => 'form']) }}
 
-              {{ Form::hidden('id', Auth::user()->id ) }}
+                {{ Form::hidden('id', Auth::user()->id ) }}
 
-              {{ Form::label('first_name', 'FirtsName', ['class' => 'sr-only']) }}
-              {{ Form::text('first_name', Auth::user()->first_name , ['class' => 'form-control', 'placeholder' => 'Firstname', 'autofocus' => '']) }}
+                {{ Form::label('first_name', 'FirtsName', ['class' => 'sr-only']) }}
+                {{ Form::text('first_name', Auth::user()->first_name , ['class' => 'form-control', 'placeholder' => 'Firstname', 'autofocus' => '']) }}
 
 
-              {{ Form::label('last_name', 'Last Name', ['class' => 'sr-only']) }}
-              {{ Form::text('last_name', Auth::user()->last_name , ['class' => 'form-control', 'placeholder' => 'Last Name', 'autofocus' => '']) }}
+                {{ Form::label('last_name', 'Last Name', ['class' => 'sr-only']) }}
+                {{ Form::text('last_name', Auth::user()->last_name , ['class' => 'form-control', 'placeholder' => 'Last Name', 'autofocus' => '']) }}
 
-              {{Form::text('email', Auth::user()->email ,['class' => 'form-control', 'placeholder' => 'Email', 'autofocus' => ''])}}
+                {{Form::text('email', Auth::user()->email ,['class' => 'form-control', 'placeholder' => 'Email', 'autofocus' => ''])}}
 
-              {{ Form::label('password', 'Password', ['class' => 'sr-only']) }}
-              {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) }}
+                {{ Form::label('password', 'Password', ['class' => 'sr-only']) }}
+                {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) }}
 
-            <p>
-              <input type="submit" value="Actualizar" class="btn btn-success">
-            </p>
-            {{ Form::close() }}
+              <p>
+                <input type="submit" value="Actualizar" class="btn btn-success">
+              </p>
+              {{ Form::close() }}
+          </div>
+        </section>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+          <div class="modal-content">
+            <div class="comments"></div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat"></a>
+          </div>
         </div>
-      </div>
+
+        <!-- Modal Structure -->
+        <div id="modal2" class="modal modal-fixed-footer">
+          <div class="modal-content">
+            <div id="buttons">
+                <input placeholder="Title" id="title" type="text" class="validate">
+                <label for="first_name">Title</label>
+                <input placeholder="Description" id="description" type="text" class="validate">
+                <label for="first_name">Description</label>
+                <br>
+                <button id="playlist-button" onclick="createPlaylist()" class="btn modal-action modal-close waves-effect waves-green btn-flat ">Create a new Playlist</button>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -143,5 +144,8 @@
 <script src="{{ asset('bootstrap-3.2.0/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('bootstrap-3.2.0/js/docs.min.js') }}"></script>
 <script src="{{ asset('js/dash.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
+<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 
 </html>
